@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+  backend:
+    image: pykilibot-backend:latest
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "8000:80"
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      GITHUB_APP_ID: ${GITHUB_APP_ID}
+      GITHUB_INSTALLATION_ID: ${GITHUB_INSTALLATION_ID}
+      GITHUB_APP_PEM: ${GITHUB_APP_PEM}
+      SECRET_KEY: ${SECRET_KEY}
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      YMQ_ACCESS_KEY_ID: ${YMQ_ACCESS_KEY_ID}
+      YMQ_SECRET_ACCESS_KEY: ${YMQ_SECRET_ACCESS_KEY}
+    command: |
+      gunicorn app.wsgi:application --bind 0.0.0.0:80
+    volumes:
+        - backend-cache:/var/cache/semicode
+
+  celery:
+    image: pykilibot-backend:latest
+    restart: always
+    networks:
+      - backend
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      GITHUB_APP_ID: ${GITHUB_APP_ID}
+      GITHUB_INSTALLATION_ID: ${GITHUB_INSTALLATION_ID}
+      GITHUB_APP_PEM: ${GITHUB_APP_PEM}
+      SECRET_KEY: ${SECRET_KEY}
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      YMQ_ACCESS_KEY_ID: ${YMQ_ACCESS_KEY_ID}
+      YMQ_SECRET_ACCESS_KEY: ${YMQ_SECRET_ACCESS_KEY}
+    command: |
+      celery --app=app worker --loglevel=INFO --pool=gevent --concurrency=10
+
+networks:
+  backend:
+
+volumes:
+  backend-cache:
