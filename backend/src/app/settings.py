@@ -127,12 +127,12 @@ LOGGING = {
         'console': {'class': 'logging.StreamHandler', 'formatter': 'verbose'}
     },
     'loggers': {
-        '': {'handlers': ['console'], 'level': 'INFO' if DEBUG else 'INFO'},
+        '': {'handlers': ['console'], 'level': 'DEBUG' if DEBUG else 'DEBUG'},
         'django': {
             'handlers': [
                 # 'console'
             ],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
         'django.db.backends': {
@@ -142,7 +142,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'celery': {'level': 'INFO', 'handlers': ['console']},
+        'celery': {'level': 'DEBUG', 'handlers': ['console']},
     },
 }
 
