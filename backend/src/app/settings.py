@@ -5,7 +5,7 @@ import environ
 
 BASE_DIR = environ.Path(__file__) - 2
 
-CACHE_DIR = '/var/cache/pykilibot'
+CACHE_DIR = '/var/cache/pylindabot'
 
 env = environ.Env()
 
@@ -170,7 +170,7 @@ CELERY_TASK_DEFAULT_QUEUE = 'celery-test' if DEBUG else 'celery'
 
 YC_S3_URL = 'https://storage.yandexcloud.net'
 
-YC_S3_BUCKET = 'pykilibot'
+YC_S3_BUCKET = 'pylindabot'
 
 REGION_NAME = 'ru-central1'
 
